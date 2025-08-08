@@ -1,0 +1,25 @@
+name: Nightly Canary
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run narrate
+      - run: npm run graph
+      - name: Commit narrative updates
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add docs/QUICKSTART.md docs/graph.json || true
+          git commit -m "docs(canary): refresh quickstart and graph" || echo "no changes"
+          git push || true

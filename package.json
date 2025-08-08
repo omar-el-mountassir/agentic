@@ -16,11 +16,12 @@
     "graph": "node scripts/build-typed-graph.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "format": "prettier -w .",
     "prepare": "husky",
     "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s"
   },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
     "@commitlint/config-conventional": "^19.4.0",

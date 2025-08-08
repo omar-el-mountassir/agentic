@@ -2,21 +2,40 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run render:license
-      - run: npm run render:readme
-      - run: npm test
-      - run: npm run lint
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Render LICENSE
+        run: npm run render:license
+
+      - name: Render README
+        run: npm run render:readme
+
+      - name: Run tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Generate Quickstart narrative
+        run: npm run narrate
+
+      - name: Build typed graph
+        run: npm run graph
