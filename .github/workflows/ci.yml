@@ -34,6 +34,17 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install Python 3.12 with uv
+        run: uv python install 3.12
+
+      - name: Validate Deep Dive JSON
+        run: npm run validate:deep-dive
+
       - name: Generate Quickstart narrative
         run: npm run narrate
 

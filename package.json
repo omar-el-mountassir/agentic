@@ -14,6 +14,7 @@
     "docs": "typedoc",
     "narrate": "node scripts/generate-quickstart.js",
     "graph": "node scripts/build-typed-graph.js",
+    "validate:deep-dive": "uv run --frozen python scripts/validate-deep-dive.py",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint . --max-warnings=0",

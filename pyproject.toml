@@ -1,0 +1,14 @@
+[project]
+name = "agentic-tools"
+version = "0.1.0"
+description = "Python utilities for the agentic repo"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Agentic Maintainers" }]
+dependencies = [
+  "jsonschema>=4.23.0",
+]
+
+[tool.uv]
+# project-local virtual environment directory
+venv = ".venv"
