@@ -12,6 +12,8 @@
     "render:license": "node packages/tools/bin/render-license.js",
     "render:roadmap": "node packages/tools/bin/generate-roadmap.js",
     "docs": "typedoc",
+    "narrate": "node scripts/generate-quickstart.js",
+    "graph": "node scripts/build-typed-graph.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
