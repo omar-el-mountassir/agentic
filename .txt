@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "title": "Deep Dive → Machine-Actionable Digest",
+    "version": "1.0",
+    "audience": "Autonomous coding/analysis agents",
+    "policy": "Minimize ambiguity; produce concrete artifacts"
+  },
+  "procedures": [
+    {
+      "id": "first_principles",
+      "goal": "Recompose solutions from fundamental truths.",
+      "inputs": {"problem": "string", "facts": ["string"], "assumptions": ["string"], "constraints": ["string"]},
+      "steps": [
+        "One-line problem + success criteria",
+        "List facts (verifiable); list assumptions",
+        "Attempt to falsify assumptions; keep only truths",
+        "From truths, draft 2–3 solution options with rough cost/time/risk",
+        "Pick option with best value; define smallest experiment"
+      ],
+      "outputs": {
+        "truths": ["string"],
+        "options": [{"name": "string", "cost": "string", "time": "string", "risks": ["string"]}],
+        "recommendation": {"name": "string", "why": "string"},
+        "experiment": {"name": "string", "signal": "string"}
+      }
+    },
+    {
+      "id": "socratic",
+      "goal": "Surface hidden assumptions and weak logic.",
+      "inputs": {"claim": "string"},
+      "questions": [
+        "What evidence? What would falsify it?",
+        "Which assumptions are implicit?",
+        "Why now? Why this approach?",
+        "What alternatives exist?",
+        "Cost of being wrong?",
+        "Smallest test to increase certainty?"
+      ],
+      "outputs": {"assumptions": ["string"], "gaps": ["string"], "tests": [{"name": "string", "cost": "string", "signal": "string"}]}
+    },
+    {
+      "id": "five_whys",
+      "goal": "Trace causal chain and pick best leverage point.",
+      "inputs": {"symptom": "string", "context": "string"},
+      "steps": [
+        "Record Why chain (why_1..why_n)",
+        "Back-check: does each cause plausibly lead to next?",
+        "Score interventions at each link: impact/cost/risk/time",
+        "Select leverage point (not necessarily deepest)",
+        "Define countermeasure + verification metric"
+      ],
+      "outputs": {
+        "why_chain": ["string"],
+        "interventions": [{"at": "number", "action": "string", "impact": "H|M|L", "cost": "H|M|L", "risk": "H|M|L"}],
+        "selected": {"at": "number", "action": "string", "why": "string"}
+      }
+    },
+    {
+      "id": "systems_map",
+      "goal": "Model parts, interactions, loops, emergence.",
+      "inputs": {"scope": "string", "actors": ["string"], "resources": ["string"]},
+      "steps": [
+        "Define boundary (in/out of scope)",
+        "List nodes and directed edges",
+        "Identify loops: reinforcing (+), balancing (-)",
+        "Mark emergent properties",
+        "Propose loop-targeted interventions"
+      ],
+      "outputs": {
+        "graph": {"nodes": ["string"], "edges": [{"from": "string", "to": "string", "sign": "+|-"}]},
+        "loops": [{"type": "reinforcing|balancing", "nodes": ["string"]}],
+        "emergent": ["string"],
+        "leverage": [{"where": "string", "intervention": "string", "effect": "string"}]
+      }
+    },
+    {
+      "id": "agent_modes",
+      "goal": "Select appropriate autonomy + safeguards.",
+      "modes": [
+        {"name": "interactive", "when": ["unclear spec", "high-risk"], "supervision": "approve each change"},
+        {"name": "auto_edit", "when": ["low-risk, repetitive", "tests exist"], "supervision": "post-run diff+tests"},
+        {"name": "plan", "when": ["new feature", "multi-file refactor"], "supervision": "approve plan first"}
+      ],
+      "safety": ["branch + PR gates", "tests+lint+typecheck before merge", "human approval for deploy/spend/delete"]
+    },
+    {
+      "id": "mcp_cycle",
+      "goal": "Use tools/resources via MCP with security and cost controls.",
+      "steps": [
+        "Discover tools/resources/prompts",
+        "Plan tool calls (permissions, cost)",
+        "Execute; capture outputs/errors",
+        "Incorporate results; iterate until goal"
+      ],
+      "security": ["sandbox, least privilege", "network allowlist", "human confirm for irreversible actions", "secure secrets"],
+      "cost": ["prompt/result caching", "batch non-urgent ops"]
+    },
+    {
+      "id": "dist_systems_primer",
+      "goal": "Trade-offs under partial failure, time, and scale.",
+      "principles": [
+        "Expect partial failures; retries, idempotency, timeouts",
+        "Unbounded network delays; treat timeouts as signals",
+        "Clock drift; avoid wall-clock ordering"
+      ],
+      "techniques": [
+        {"name": "fencing_tokens", "purpose": "block stale writers after lease change"},
+        {"name": "causal_order", "impl": "Lamport timestamps / vector clocks"}
+      ],
+      "replication": [
+        {"type": "leader", "pros": ["simple writes"], "cons": ["leader SPOF for writes"]},
+        {"type": "multi_leader", "pros": ["geo writes"], "cons": ["conflict resolution"]},
+        {"type": "leaderless", "pros": ["availability"], "cons": ["client merge siblings"]}
+      ],
+      "consistency": [
+        {"model": "strong/linearizable", "note": "simpler semantics, higher latency"},
+        {"model": "eventual", "note": "higher availability/perf; staleness windows"}
+      ],
+      "cap": "During partitions, choose Consistency or Availability per product need",
+      "storage": [{"engine": "LSM", "best_for": "write-heavy"}, {"engine": "B-Tree", "best_for": "predictable reads"}],
+      "processing": [
+        {"mode": "batch", "use": "periodic large transforms"},
+        {"mode": "stream", "use": "continuous reactions"},
+        {"mode": "cdc", "use": "propagate DB changes"},
+        {"mode": "unified", "use": "one engine for historical+real-time with exactly-once"}
+      ]
+    }
+  ],
+  "decision_matrices": [
+    {
+      "id": "consistency_choice",
+      "criteria": ["user impact of staleness", "latency budget", "partition policy"],
+      "options": [
+        {"choice": "strong", "when": ["financial/ordering invariants"], "cost": ["latency", "reduced availability under P"]},
+        {"choice": "eventual", "when": ["feeds/search/geo"], "cost": ["staleness", "merge conflicts"]}
+      ]
+    },
+    {
+      "id": "mode_selection",
+      "options": [
+        {"mode": "interactive", "if": ["unclear spec", "risky change"]},
+        {"mode": "auto_edit", "if": ["low-risk repetitive", "tests guard behavior"]},
+        {"mode": "plan", "if": ["multi-file feature/refactor", "needs design approval"]}
+      ]
+    }
+  ],
+  "safety_policies": [
+    "Require human approval for deploy/spend/destructive ops",
+    "Operate on branches; enforce tests+lint+typecheck before merge",
+    "Log decisions; maintain PROJECT_MEMORY.md"
+  ],
+  "artifacts": [
+    {"name": "first_principles.json", "from": "first_principles.outputs"},
+    {"name": "why_chain.json", "from": "five_whys.outputs"},
+    {"name": "system_map.json", "from": "systems_map.outputs"},
+    {"name": "PROJECT_MEMORY.md", "from": "project_memory"}
+  ],
+  "glossary": [
+    {"term": "reinforcing_loop", "def": "amplifies changes"},
+    {"term": "balancing_loop", "def": "restores equilibrium"},
+    {"term": "linearizability", "def": "single global order semantics"},
+    {"term": "lamport_timestamp", "def": "logical happens-before ordering"}
+  ]
+}

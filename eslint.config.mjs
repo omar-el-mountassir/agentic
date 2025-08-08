@@ -4,7 +4,7 @@ import globals from 'globals';
 
 export default [
   {
-  ignores: ['node_modules/**', 'dist/**', 'coverage/**', 'docs/**']
+    ignores: ['node_modules/**', 'dist/**', 'coverage/**', 'docs/**'],
   },
   {
     languageOptions: {

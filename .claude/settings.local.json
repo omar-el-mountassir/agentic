@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": ["Bash(git add:*)"],
+    "deny": []
+  },
+  "hooks": {
+    "PostToolUse": {
+      "command": "npm run format",
+      "description": "Auto-format code after file modifications",
+      "enabled": true,
+      "conditions": {
+        "toolMatches": [".*write_file.*", ".*edit_file.*"]
+      }
+    },
+    "PreToolUse": {
+      "command": "echo 'Starting tool: $CLAUDE_TOOL_NAME'",
+      "description": "Log tool usage for debugging",
+      "enabled": false
+    },
+    "Notification": {
+      "command": "echo 'Claude Code session active'",
+      "description": "Session start notification",
+      "enabled": false
+    }
+  },
+  "subAgents": {
+    "reviewer": {
+      "model": "claude-3-5-sonnet-20241022",
+      "description": "Code review and quality assurance specialist",
+      "systemPrompt": "You are a senior code reviewer specializing in TypeScript, React, and monorepo architectures. Focus on code quality, security, and adherence to project patterns.",
+      "enabled": true
+    },
+    "tester": {
+      "model": "claude-3-5-sonnet-20241022",
+      "description": "Testing specialist for Vitest and property-based testing",
+      "systemPrompt": "You specialize in writing comprehensive tests using Vitest and fast-check. Focus on real functionality testing and edge case coverage.",
+      "enabled": true
+    },
+    "optimizer": {
+      "model": "claude-3-5-sonnet-20241022",
+      "description": "Performance and build optimization specialist",
+      "systemPrompt": "You focus on build optimization, bundle analysis, and performance improvements for Next.js and Node.js applications.",
+      "enabled": false
+    }
+  }
+}
