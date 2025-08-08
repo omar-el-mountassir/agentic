@@ -1,0 +1,41 @@
+{
+  "name": "agentic-workspace",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Helper scripts for rendering README from .env",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "render:readme": "node scripts/render-readme.js",
+    "render:license": "node packages/tools/bin/render-license.js",
+    "render:roadmap": "node packages/tools/bin/generate-roadmap.js",
+    "docs": "typedoc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier -w .",
+    "prepare": "husky",
+    "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.4.0",
+    "@octokit/rest": "^21.0.2",
+    "conventional-changelog-cli": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^17.10.3",
+    "eslint-plugin-promise": "^6.4.0",
+    "fast-check": "^3.17.1",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.9",
+    "prettier": "^3.3.3",
+    "typedoc": "^0.25.13",
+    "typescript": "^5.4.5",
+    "vitest": "^3.2.4"
+  }
+}

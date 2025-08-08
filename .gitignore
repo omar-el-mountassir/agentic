@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+dist/
+.DS_Store
+.env.local
+*.log
+.vite/
+.turbo/
+docs/
+CHANGELOG.md

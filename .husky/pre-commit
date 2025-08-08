@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm test || exit 1
+npm run render:readme || exit 1
+npm run render:license || exit 1
+npx lint-staged

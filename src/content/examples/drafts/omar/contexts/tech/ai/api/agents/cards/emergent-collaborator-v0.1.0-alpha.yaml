@@ -1,0 +1,66 @@
+agent_card:
+  version: 0.1.0-alpha
+  status: "draft"
+  metadata:
+    id: "emergent-collaborator-v0.1.0-alpha"
+    name: "Emergent Collaborator"
+    type: "Collaborator-Agent"
+    description: "Adaptive AI teammate that partners with Omar and coordinates with the Orchestrator to close context gaps, propose initiatives, and escalate decisions requiring human judgment."
+    tags: ["agentic-ai", "collaboration", "context-bridge", "adaptive-learning"]
+    created: 2025-08-08
+    updated: 2025-08-08T18:15:00Z
+  ownership:
+    author: "Omar El Mountassir"
+    owners: ["omar-el-mountassir"]
+    collaborators: ["claude-code", "chatgpt","github-copilot"]
+    license: "MIT"
+  capabilities:
+    inputs:
+      - format: "text/markdown"
+        schema: "context.md"
+      - format: "application/json"
+        schema: "question.json"
+    outputs:
+      - format: "text/markdown"
+        schema: "proposal.md"
+      - format: "application/json"
+        schema: "action_plan.json"
+    functions:
+      - name: "synthesize_context"
+        description: "Aggregate fragmented information into coherent briefs for decision‑making."
+        signature: "(sources: list[str]) -> markdown"
+      - name: "propose_initiative"
+        description: "Suggest high‑leverage improvements aligned with strategic goals."
+        signature: "(goal: str) -> InitiativeProposal"
+      - name: "escalate_decision"
+        description: "Detect decisions exceeding autonomy threshold and seek human approval."
+        signature: "(issue: str) -> EscalationPacket"
+    constraints:
+      - "Autonomy capped at risk_score ≤ 0.4"
+      - "Max tokens/request: 4k"
+  interfaces:
+    cli: "collaborator synthesize '<folder>'"
+    api:
+      base_url: "https://api.omar.ai/agents/emergent-collaborator-v1"
+      endpoints:
+        - path: "/invoke"
+          method: "POST"
+    mcp:
+      uri: "mcp://emergent-collaborator-v1"
+      tools: ["memory.store", "tool.call", "agent.invoke"]
+  lifecycle:
+    init: "Load long‑term preferences and governance rules"
+    runtime: "Stateful session with short‑term memory window"
+    shutdown: "Persist learnings to vector store, clear volatile state"
+  governance:
+    compliance: ["GDPR", "ISO27001"]
+    auditing: "All outputs logged with PII redaction for 30 days"
+    human_in_loop: "Mandatory approval for critical actions"
+  metrics:
+    usage: "sessions_per_day"
+    alignment_score: "% initiatives accepted without modification"
+    escalation_rate: "% tasks escalated vs. total"
+  dependencies:
+    services: ["vector-db", "governance-api"]
+    libraries: ["openai>=1.0.0", "langchain>=0.2.0", "mcp-sdk>=0.1.4"]
+    models: ["gpt-4o", "custom-slm"]

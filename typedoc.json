@@ -1,0 +1,12 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "packages/template/src/index.js"
+  ],
+  "out": "docs",
+  "name": "Agentic Workspace API",
+  "includeVersion": true,
+  "treatWarningsAsErrors": false,
+  "plugin": [],
+  "tsconfig": "tsconfig.json"
+}
