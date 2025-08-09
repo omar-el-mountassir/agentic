@@ -1,7 +1,7 @@
 {
   "name": "agentic-workspace",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.2.0",
   "type": "module",
   "description": "Helper scripts for rendering README from .env",
   "workspaces": [
@@ -17,10 +17,25 @@
     "validate:deep-dive": "uv run --frozen python scripts/validate-deep-dive.py",
     "test": "vitest run",
     "test:watch": "vitest",
+    "subagent:smoke": "node scripts/subagent-smoke.js",
+    "deploy": "node scripts/deploy.js",
+    "fix": "node scripts/fix.js",
+    "init:package": "node scripts/init-package.js",
+    "bootstrap:context7": "node scripts/bootstrap-context7.js",
+    "demo:cross-verify": "node scripts/cross-verify-demo.js",
+    "demo:cross-verify:convex": "AGENTIC_DB=convex CONVEX_URL=${CONVEX_URL:-http://127.0.0.1:3210} node scripts/cross-verify-demo.js",
+    "new-report": "node scripts/reports/new-report.js",
+    "inventory:scan": "node scripts/inventory/scan.js",
+    "format:check": "prettier -c .",
+    "review": "npm run lint && npm test && npm run format:check && npm run render:readme && npm run narrate && npm run graph",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier -w .",
     "prepare": "husky",
-    "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
+    "pacte:print": "node scripts/pacte/print.js",
+    "gov:check": "tsx control-plane/scripts/governance/check.ts",
+    "gov:hash-chain": "tsx control-plane/scripts/governance/hash-chain.ts",
+    "gov:classify-scan": "tsx control-plane/scripts/governance/classify-scan.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
@@ -41,6 +56,8 @@
     "prettier": "^3.3.3",
     "typedoc": "^0.25.13",
     "typescript": "^5.4.5",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "convex": "^1.14.1",
+    "tsx": "^4.7.0"
   }
 }
