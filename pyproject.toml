@@ -9,6 +9,3 @@ dependencies = [
   "jsonschema>=4.23.0",
 ]
 
-[tool.uv]
-# project-local virtual environment directory
-venv = ".venv"
